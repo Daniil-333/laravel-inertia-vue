@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../**/*.vue';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+:root {
+    --bg-dark: oklch(27.8% .033 256.848);
+    --bg-light: oklch(97.7% .013 236.62);
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: var(--bg-light);
+
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--bg-dark);
+    }
+}
+
+.container {
+    @apply mx-auto max-w-7xl px-2 sm:px-6 lg:px-8;
+}
+
+.txt-color {
+    @apply text-gray-900 dark:text-gray-100
+}
+
+button {
+    cursor: pointer;
+}
