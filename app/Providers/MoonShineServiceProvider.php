@@ -11,6 +11,9 @@ use MoonShine\Laravel\DependencyInjection\MoonShineConfigurator;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
 use App\MoonShine\Resources\User\UserResource;
+use App\MoonShine\Resources\Video\VideoResource;
+use App\MoonShine\Resources\Category\CategoryResource;
+use App\MoonShine\Resources\Tag\TagResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -24,6 +27,9 @@ class MoonShineServiceProvider extends ServiceProvider
                 MoonShineUserResource::class,
                 MoonShineUserRoleResource::class,
                 UserResource::class,
+                VideoResource::class,
+                CategoryResource::class,
+                TagResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

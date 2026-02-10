@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use App\Models\Category;
+use App\Models\Tag;
 use App\Models\User;
+use App\Models\Video;
 use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\ColorManager\Palettes\GrayPalette;
 use MoonShine\ColorManager\ColorManager;
@@ -15,6 +18,9 @@ use MoonShine\MenuManager\MenuItem;
 use MoonShine\UI\Components\Layout\Favicon;
 use MoonShine\UI\Components\Layout\Footer;
 use App\MoonShine\Resources\User\UserResource;
+use App\MoonShine\Resources\Video\VideoResource;
+use App\MoonShine\Resources\Category\CategoryResource;
+use App\MoonShine\Resources\Tag\TagResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -32,7 +38,10 @@ final class MoonShineLayout extends AppLayout
 
     protected function menu(): array
     {
-        $menu = [];
+        $menu = [    MenuItem::make(VideoResource::class, 'Videos'),
+            MenuItem::make(CategoryResource::class, 'Categories'),
+            MenuItem::make(TagResource::class, 'Tags'),
+        ];
 
         if(auth()->user()->isSuperUser()) {
             $menu = [
@@ -45,9 +54,15 @@ final class MoonShineLayout extends AppLayout
             MenuItem::make(UserResource::class, 'Users')
                 ->icon('users')
                 ->badge(User::count()),
-            MenuItem::make('/', 'Видео')
-                ->icon('video-camera'),
-//                ->badge(fn() => Video::count()),
+            MenuItem::make(VideoResource::class, 'Видео')
+                ->icon('video-camera')
+                ->badge(fn() => Video::count()),
+            MenuItem::make(CategoryResource::class, 'Категории')
+                ->icon('document-duplicate')
+                ->badge(fn() => Category::count()),
+            MenuItem::make(TagResource::class, 'Тэги')
+                ->icon('tag')
+                ->badge(fn() => Tag::count()),
         ]);
     }
 
