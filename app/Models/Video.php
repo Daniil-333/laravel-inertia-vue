@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,11 +25,20 @@ class Video extends Model
         return 'slug';
     }
 
-    public function setTitleAttribute($value)
+    protected function slug(): Attribute
     {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug'] = Str::slug($value, '-');
+        return Attribute::make(
+            set: function (?string $value, array $attributes) {
+                return Str::slug($attributes['title']);
+            },
+        );
     }
+
+//    public function setTitleAttribute($value)
+//    {
+//        $this->attributes['title'] = $value;
+//        $this->attributes['slug'] = Str::slug($value, '-');
+//    }
 
     /**
      * Связь Один-ко-многим между Video & Category

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Category\Pages;
 
+use App\MoonShine\Traits\BreadcrumbsTrait;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
@@ -12,8 +13,10 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use App\MoonShine\Resources\Category\CategoryResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\Hidden;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\Text;
 use Throwable;
 
 
@@ -22,6 +25,10 @@ use Throwable;
  */
 class CategoryFormPage extends FormPage
 {
+    use BreadcrumbsTrait;
+
+    protected string $title = 'Добавить';
+
     /**
      * @return list<ComponentContract|FieldContract>
      */
@@ -30,6 +37,8 @@ class CategoryFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
+                Text::make('Название', 'title'),
+                Hidden::make('Slug', 'slug'),
             ]),
         ];
     }
@@ -46,7 +55,9 @@ class CategoryFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'title' => ['required', 'string', 'min:3', 'max:255'],
+        ];
     }
 
     /**

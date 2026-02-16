@@ -11,6 +11,7 @@ use MoonShine\Contracts\UI\FieldContract;
 use App\MoonShine\Resources\Tag\TagResource;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Text;
 use Throwable;
 
 

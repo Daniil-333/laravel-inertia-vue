@@ -12,6 +12,8 @@ use App\MoonShine\Resources\Category\Pages\CategoryDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Support\Enums\Action;
+use MoonShine\Support\ListOf;
 
 /**
  * @extends ModelResource<Category, CategoryIndexPage, CategoryFormPage, CategoryDetailPage>
@@ -20,8 +22,10 @@ class CategoryResource extends ModelResource
 {
     protected string $model = Category::class;
 
-    protected string $title = 'Categories';
-    
+    protected string $title = 'Категории';
+
+    protected string $column = 'title';
+
     /**
      * @return list<class-string<PageContract>>
      */
@@ -32,5 +36,11 @@ class CategoryResource extends ModelResource
             CategoryFormPage::class,
             CategoryDetailPage::class,
         ];
+    }
+
+    protected function activeActions(): ListOf
+    {
+        return parent::activeActions()
+            ->except(Action::VIEW);
     }
 }

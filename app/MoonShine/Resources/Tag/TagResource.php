@@ -12,6 +12,8 @@ use App\MoonShine\Resources\Tag\Pages\TagDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Support\Enums\Action;
+use MoonShine\Support\ListOf;
 
 /**
  * @extends ModelResource<Tag, TagIndexPage, TagFormPage, TagDetailPage>
@@ -20,8 +22,10 @@ class TagResource extends ModelResource
 {
     protected string $model = Tag::class;
 
-    protected string $title = 'Tags';
-    
+    protected string $title = 'Тэги';
+
+    protected string $column = 'title';
+
     /**
      * @return list<class-string<PageContract>>
      */
@@ -32,5 +36,11 @@ class TagResource extends ModelResource
             TagFormPage::class,
             TagDetailPage::class,
         ];
+    }
+
+    protected function activeActions(): ListOf
+    {
+        return parent::activeActions()
+            ->except(Action::VIEW);
     }
 }

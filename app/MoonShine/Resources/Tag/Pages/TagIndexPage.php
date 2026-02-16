@@ -6,6 +6,10 @@ namespace App\MoonShine\Resources\Tag\Pages;
 
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Support\Enums\Action;
+use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Components\Layout\Column;
+use MoonShine\UI\Components\Layout\Grid;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
@@ -13,6 +17,7 @@ use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Fields\ID;
 use App\MoonShine\Resources\Tag\TagResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\Text;
 use Throwable;
 
 
@@ -30,6 +35,7 @@ class TagIndexPage extends IndexPage
     {
         return [
             ID::make(),
+            Text::make('Название', 'title'),
         ];
     }
 
