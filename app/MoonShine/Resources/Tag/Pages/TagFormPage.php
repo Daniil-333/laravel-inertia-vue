@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Tag\Pages;
 
-use App\MoonShine\Traits\BreadcrumbsTrait;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
@@ -25,9 +24,16 @@ use Throwable;
  */
 class TagFormPage extends FormPage
 {
-    use BreadcrumbsTrait;
 
     protected string $title = 'Добавить';
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->isItemExists() ? 'Редактировать' : $this->title;
+    }
 
     /**
      * @return list<ComponentContract|FieldContract>

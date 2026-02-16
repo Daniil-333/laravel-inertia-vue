@@ -20,6 +20,30 @@ class Video extends Model
         'category_id'
     ];
 
+    protected $appends = ['tags_list'];
+
+    protected static function booted()
+    {
+        static::saved(function ($video) {
+            if ($video->wasChanged('file_name') && $video->file_name) {
+                $currentValue = $video->file_name;
+
+                // Если значение содержит путь, обрезаем
+                if (str_contains($currentValue, '/')) {
+                    $video->file_name = basename($currentValue);
+                    $video->saveQuietly();
+                }
+            }
+        });
+
+        static::created(function ($video) {
+            if ($video->file_name && str_contains($video->file_name, '/')) {
+                $video->file_name = basename($video->file_name);
+                $video->saveQuietly();
+            }
+        });
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';
@@ -34,11 +58,10 @@ class Video extends Model
         );
     }
 
-//    public function setTitleAttribute($value)
-//    {
-//        $this->attributes['title'] = $value;
-//        $this->attributes['slug'] = Str::slug($value, '-');
-//    }
+    public function getTagsListAttribute()
+    {
+        return $this->tags->pluck('title')->implode(', ');
+    }
 
     /**
      * Связь Один-ко-многим между Video & Category

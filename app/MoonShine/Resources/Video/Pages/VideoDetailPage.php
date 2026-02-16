@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Video\Pages;
 
+use App\MoonShine\Resources\Category\CategoryResource;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
@@ -11,6 +13,9 @@ use MoonShine\Contracts\UI\FieldContract;
 use App\MoonShine\Resources\Video\VideoResource;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Preview;
+use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 
@@ -19,6 +24,8 @@ use Throwable;
  */
 class VideoDetailPage extends DetailPage
 {
+    protected string $title = 'Просмотр';
+
     /**
      * @return list<FieldContract>
      */
@@ -26,6 +33,27 @@ class VideoDetailPage extends DetailPage
     {
         return [
             ID::make(),
+            Text::make('Название', 'title'),
+            Text::make('Краткое описание', 'short_desc'),
+            Textarea::make('Полное описание', 'description'),
+            Preview::make('Видео или картинка', 'file_name')
+                ->link(
+                    fn($link) => asset('storage/video/' . $link),
+                    'Просмотр',
+                    null,
+                    false,
+                    true
+                )
+                ->badge('green'),
+             BelongsTo::make(
+                 'Категория',
+                 'category',
+                 resource: CategoryResource::class
+             ),
+            Text::make(
+                'Теги',
+                'tags_list'
+            )
         ];
     }
 

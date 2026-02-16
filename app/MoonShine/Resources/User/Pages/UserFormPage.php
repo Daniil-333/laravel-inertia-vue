@@ -26,6 +26,14 @@ class UserFormPage extends FormPage
     protected string $title = 'Добавить';
 
     /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->isItemExists() ? 'Редактировать' : $this->title;
+    }
+
+    /**
      * @return list<ComponentContract|FieldContract>
      */
 //    protected function fields(): iterable
@@ -36,14 +44,6 @@ class UserFormPage extends FormPage
 //            ]),
 //        ];
 //    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->getItem() ? 'Редактировать' : $this->title;
-    }
 
     protected function buttons(): ListOf
     {

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Video;
 
-use App\Models\Category;
-use App\Models\Tag;
+
 use App\MoonShine\Resources\Category\CategoryResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +13,6 @@ use App\MoonShine\Resources\Video\Pages\VideoIndexPage;
 use App\MoonShine\Resources\Video\Pages\VideoFormPage;
 use App\MoonShine\Resources\Video\Pages\VideoDetailPage;
 
-use Illuminate\Support\Facades\Log;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Resources\ModelResource;
@@ -25,7 +23,6 @@ use MoonShine\UI\Fields\Field;
 use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\Hidden;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 
 /**
@@ -36,6 +33,8 @@ class VideoResource extends ModelResource
     protected string $model = Video::class;
 
     protected string $title = 'Видео';
+
+    protected string $column = 'title';
 
     /**
      * @return list<class-string<PageContract>>
@@ -51,6 +50,7 @@ class VideoResource extends ModelResource
 
     protected function formFields(): iterable
     {
+        $model = $this->getModel();
         return [
             Box::make([
                 ID::make(),
@@ -63,13 +63,7 @@ class VideoResource extends ModelResource
                     ->disk(moonshineConfig()->getDisk())
                     ->dir('video')
                     ->allowedExtensions(['jpg', 'png', 'jpeg', 'webp', 'avi', 'mp4', 'mkv'])
-                    ->onApply(function(Model $item, $value, Field $field) {
-                        $savedPath = $field->getValue();
-                        $fileNameOnly = basename($savedPath);
-                        $item->file_name = $fileNameOnly;
-                        return $item;
-                    }),
-//                    ->hideOnIndex(),
+                    ->removable(),
 
                 BelongsTo::make(
                     'Категория',

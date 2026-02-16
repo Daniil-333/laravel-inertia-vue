@@ -12,12 +12,9 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
-use MoonShine\UI\Fields\File;
-use MoonShine\UI\Fields\Hidden;
 use MoonShine\UI\Fields\ID;
 use App\MoonShine\Resources\Video\VideoResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use Throwable;
 

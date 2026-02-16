@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Category;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\MoonShine\Resources\Category\Pages\CategoryIndexPage;
 use App\MoonShine\Resources\Category\Pages\CategoryFormPage;

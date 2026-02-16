@@ -5,26 +5,15 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Video\Pages;
 
 use App\Models\Category;
-use App\Models\Tag;
-use App\MoonShine\Resources\Category\CategoryResource;
-use App\MoonShine\Traits\BreadcrumbsTrait;
 use Illuminate\Validation\Rule;
-use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
-use MoonShine\TinyMce\Fields\TinyMce;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use App\MoonShine\Resources\Video\VideoResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\File;
-use MoonShine\UI\Fields\Hidden;
-use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Components\Layout\Box;
-use MoonShine\UI\Fields\Select;
-use MoonShine\UI\Fields\Text;
 use Throwable;
 
 
@@ -33,9 +22,16 @@ use Throwable;
  */
 class VideoFormPage extends FormPage
 {
-    use BreadcrumbsTrait;
 
     protected string $title = 'Добавить';
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->isItemExists() ? 'Редактировать' : $this->title;
+    }
 
     /**
      * @return list<ComponentContract|FieldContract>
