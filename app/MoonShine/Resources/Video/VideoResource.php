@@ -50,7 +50,6 @@ class VideoResource extends ModelResource
 
     protected function formFields(): iterable
     {
-        $model = $this->getModel();
         return [
             Box::make([
                 ID::make(),
@@ -61,7 +60,7 @@ class VideoResource extends ModelResource
 
                 File::make('Видео или картинка', 'file_name')
                     ->disk(moonshineConfig()->getDisk())
-                    ->dir('video')
+                    ->dir('media')
                     ->allowedExtensions(['jpg', 'png', 'jpeg', 'webp', 'avi', 'mp4', 'mkv'])
                     ->removable(),
 

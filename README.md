@@ -10,6 +10,3 @@
     php artisan typescript:transform --format
 
 Генерация объявления маршрутов и типов данных происходит автоматически за счёт настройки плагина (watch) в vite.config.js.
-
-Superuser: progressive@techno.com acid_house_Life (minimal)
-Admin: admin@admin.net 12345678

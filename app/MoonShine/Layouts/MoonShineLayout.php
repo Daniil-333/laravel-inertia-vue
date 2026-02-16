@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\Video;
+use App\Models\WhiteListUser;
 use App\MoonShine\Resources\Category\CategoryResource;
 use App\MoonShine\Resources\Tag\TagResource;
 use App\MoonShine\Resources\User\UserResource;
@@ -20,6 +21,7 @@ use MoonShine\Contracts\ColorManager\PaletteContract;
 use MoonShine\MenuManager\MenuDivider;
 use MoonShine\MenuManager\MenuItem;
 use MoonShine\UI\Components\Layout\Footer;
+use App\MoonShine\Resources\WhiteListUser\WhiteListUserResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -43,7 +45,7 @@ final class MoonShineLayout extends AppLayout
             $menu = [
                 ...parent::menu(),
                 MenuDivider::make(),
-            ];
+        ];
         }
 
         return $this->getMenuItems($menu);
@@ -77,7 +79,10 @@ final class MoonShineLayout extends AppLayout
     private function getMenuItems($menu): array
     {
         return array_merge($menu, [
-            MenuItem::make(UserResource::class, 'Users')
+            MenuItem::make(WhiteListUserResource::class, 'Белый список')
+                ->icon('')
+                ->badge(WhiteListUser::count()),
+            MenuItem::make(UserResource::class, 'Пользователи')
                 ->icon('users')
                 ->badge(User::count()),
             MenuItem::make(VideoResource::class, 'Видео')

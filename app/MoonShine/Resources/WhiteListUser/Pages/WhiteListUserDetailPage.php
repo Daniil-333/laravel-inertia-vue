@@ -2,30 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Video\Pages;
+namespace App\MoonShine\Resources\WhiteListUser\Pages;
 
-use App\MoonShine\Resources\Category\CategoryResource;
-use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
-use App\MoonShine\Resources\Video\VideoResource;
+use App\MoonShine\Resources\WhiteListUser\WhiteListUserResource;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Preview;
-use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Textarea;
 use Throwable;
 
 
 /**
- * @extends DetailPage<VideoResource>
+ * @extends DetailPage<WhiteListUserResource>
  */
-class VideoDetailPage extends DetailPage
+class WhiteListUserDetailPage extends DetailPage
 {
-    protected string $title = 'Просмотр';
-
     /**
      * @return list<FieldContract>
      */
@@ -33,28 +26,6 @@ class VideoDetailPage extends DetailPage
     {
         return [
             ID::make(),
-            Text::make('Название', 'title'),
-            Text::make('Краткое описание', 'short_desc'),
-            Textarea::make('Полное описание', 'description'),
-            Preview::make('Видео или картинка', 'file_name')
-                ->link(
-                    fn($link) => $link ? asset('storage/media/' . $link) : '#',
-                    'Просмотр',
-                    null,
-                    false,
-                    true
-                )
-                ->badge('green')
-                ->canSee(static fn($callback) => $callback->getLinkValue() != '#'),
-             BelongsTo::make(
-                 'Категория',
-                 'category',
-                 resource: CategoryResource::class
-             ),
-            Text::make(
-                'Теги',
-                'tags_list'
-            )
         ];
     }
 

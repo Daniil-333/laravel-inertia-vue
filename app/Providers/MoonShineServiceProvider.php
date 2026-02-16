@@ -13,6 +13,7 @@ use App\MoonShine\Resources\User\UserResource;
 use App\MoonShine\Resources\Video\VideoResource;
 use App\MoonShine\Resources\Category\CategoryResource;
 use App\MoonShine\Resources\Tag\TagResource;
+use App\MoonShine\Resources\WhiteListUser\WhiteListUserResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 VideoResource::class,
                 CategoryResource::class,
                 TagResource::class,
+                WhiteListUserResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

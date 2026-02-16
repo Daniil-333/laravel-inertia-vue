@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Video\Pages;
+namespace App\MoonShine\Resources\WhiteListUser\Pages;
 
-use App\Models\Category;
-use Illuminate\Validation\Rule;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\UI\Components\FormBuilder;
+use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use App\MoonShine\Resources\Video\VideoResource;
+use App\MoonShine\Resources\WhiteListUser\WhiteListUserResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Fields\Text;
 use Throwable;
 
 
 /**
- * @extends FormPage<VideoResource>
+ * @extends FormPage<WhiteListUserResource>
  */
-class VideoFormPage extends FormPage
+class WhiteListUserFormPage extends FormPage
 {
-
     protected string $title = 'Добавить';
 
     /**
@@ -30,6 +31,19 @@ class VideoFormPage extends FormPage
     public function getTitle(): string
     {
         return $this->isItemExists() ? 'Редактировать' : $this->title;
+    }
+
+    /**
+     * @return list<ComponentContract|FieldContract>
+     */
+    protected function fields(): iterable
+    {
+        return [
+            Box::make([
+                ID::make(),
+                Text::make('E-mail', 'email')
+            ]),
+        ];
     }
 
     protected function buttons(): ListOf
@@ -44,21 +58,8 @@ class VideoFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [
-            'title' => [
-                'required',
-                'string',
-                'min:5',
-                'max:255',
-                Rule::unique($item->getOriginal()::class)->ignoreModel($item->getOriginal())
-            ],
-            'short_desc' => ['string', 'max:255', 'nullable'],
-            'category_id' => ['required', 'integer', Rule::exists(Category::class, 'id')],
-            'file' => [],
-            'tag_id' => ['array'],
-        ];
+        return [];
     }
-
 
     /**
      * @param  FormBuilder  $component
