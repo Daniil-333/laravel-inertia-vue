@@ -17,6 +17,7 @@
                             required
                             autocomplete="email" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500" />
                     </div>
+                    <Link :href="route('login')" class="text-right text-blue-500">Вернуться назад</Link>
                     <div v-if="form.errors.email" class="text-red-500 text-sm mt-1">
                         {{ form.errors.email }}
                     </div>
@@ -34,9 +35,11 @@
 </template>
 
 <script lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import {Link, useForm} from '@inertiajs/vue3'
+import {route} from "momentum-trail";
 
 export default {
+    components: {Link},
     props: {
         title: String,
         status: String
@@ -50,7 +53,7 @@ export default {
             form.post(route('password.email'))
         }
 
-        return { form, forgot }
+        return { form, forgot, route }
     }
 }
 </script>

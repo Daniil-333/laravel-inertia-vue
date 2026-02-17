@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('white_list_email', function (Blueprint $table) {
+        Schema::create('white_list_users', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
             $table->timestamp('created_at')->useCurrent();

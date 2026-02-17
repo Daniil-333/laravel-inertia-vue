@@ -1,56 +1,3 @@
-<script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
-import {useForm, Link } from "@inertiajs/vue3";
-import { route } from "momentum-trail";
-
-interface AuthFormData {
-    email: string;
-    password: string;
-    user_name?: string;
-    password_confirmation?: string;
-    remember?: boolean;
-}
-
-export default defineComponent({
-    components: { Link },
-
-    props: {
-        title: String,
-        isRegister: Boolean
-    },
-
-    setup(props) {
-        const form = useForm<AuthFormData>({
-            email: '',
-            password: '',
-            user_name: '',
-            password_confirmation: '',
-            remember: true
-        })
-
-        const handleSubmit = () => {
-            const data = props.isRegister
-                ? {
-                    user_name: form.user_name,
-                    email: form.email,
-                    password: form.password,
-                    password_confirmation: form.password_confirmation
-                }
-                : {
-                    email: form.email,
-                    password: form.password
-                };
-
-            form.transform(() => data).post(
-                route(props.isRegister ? 'register' : 'login')
-            );
-        };
-
-        return { route, handleSubmit, form }
-    }
-})
-</script>
-
 <template>
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">{{ title }}</h2>
@@ -130,6 +77,10 @@ export default defineComponent({
                     </div>
                 </div>
 
+                <div v-if="form.errors.recaptcha_token" class="text-red-500 text-sm mt-1">
+                    {{ form.errors.recaptcha_token }}
+                </div>
+
                 <div v-if="!isRegister" class="flex justify-end gap-2 txt-color">
                     <p>Нет аккаунта?</p>
                     <Link :href="route('register')" class="text-blue-500">Зарегистрироваться</Link>
@@ -165,5 +116,134 @@ export default defineComponent({
         </div>
     </div>
 </template>
+
+<script lang="ts">
+import { defineComponent, onMounted } from "@vue/runtime-core";
+import { Link } from "@inertiajs/vue3";
+import { route } from "momentum-trail";
+import { useFormWithCsrf } from "@/composables/useFormWithCsrf";
+
+declare global {
+    interface Window {
+        grecaptcha: {
+            ready: (callback: () => void) => void;
+            execute: (siteKey: string, options: { action: string }) => Promise<string>;
+        };
+    }
+}
+
+interface AuthFormData {
+    email: string;
+    password: string;
+    user_name?: string;
+    password_confirmation?: string;
+    remember?: boolean;
+    recaptcha_token?: string;
+}
+
+export default defineComponent({
+    components: { Link },
+
+    props: {
+        title: String,
+        isRegister: Boolean,
+        recaptchaSiteKey: {
+            type: String as () => string | null,
+            required: false,
+            default: null
+        }
+    },
+
+    setup(props) {
+        const form = useFormWithCsrf<AuthFormData>({
+            email: '',
+            password: '',
+            user_name: '',
+            password_confirmation: '',
+            remember: true,
+            recaptcha_token: ''
+        })
+
+        const handleSubmit = async () => {
+            if (props.isRegister) {
+                try {
+                    await executeRecaptcha();
+                } catch (error) {
+                    console.error('reCAPTCHA error:', error);
+                    // alert('Ошибка проверки reCAPTCHA. Попробуйте еще раз.');
+                    return;
+                }
+            }
+
+            const data = props.isRegister
+                ? {
+                    user_name: form.user_name,
+                    email: form.email,
+                    password: form.password,
+                    password_confirmation: form.password_confirmation,
+                    recaptcha_token: form.recaptcha_token
+                }
+                : {
+                    email: form.email,
+                    password: form.password
+                };
+
+            form.transform(() => data).post(
+                route(props.isRegister ? 'register' : 'login')
+            );
+        };
+
+        const executeRecaptcha = async (): Promise<void> => {
+            if (!props.isRegister || !props.recaptchaSiteKey) {
+                return Promise.resolve();
+            }
+
+            if (!window.grecaptcha) {
+                throw new Error('reCAPTCHA not loaded');
+            }
+
+            return new Promise((resolve, reject) => {
+                window.grecaptcha.ready(async () => {
+                    try {
+                        form.recaptcha_token = await window.grecaptcha.execute(
+                            props.recaptchaSiteKey,
+                            {action: 'register'}
+                        );
+                        resolve();
+                    } catch (error) {
+                        reject(error);
+                    }
+                });
+            });
+        };
+
+        const loadRecaptchaScript = () => {
+            if (!props.recaptchaSiteKey) return;
+
+            const script = document.createElement('script');
+            script.src = `https://www.google.com/recaptcha/api.js?render=${props.recaptchaSiteKey}`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        };
+
+        onMounted(() => {
+            if (props.isRegister && props.recaptchaSiteKey) {
+                const script = document.createElement('script');
+                script.src = `https://www.google.com/recaptcha/api.js?render=${props.recaptchaSiteKey}`;
+                script.async = true;
+                script.defer = true;
+                document.head.appendChild(script);
+            }
+        });
+
+        return { route,
+            handleSubmit,
+            form,
+            loadRecaptchaScript
+        }
+    },
+})
+</script>
 
 <style scoped></style>
