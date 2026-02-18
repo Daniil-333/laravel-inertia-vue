@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* Включаем поддержку темной темы через класс */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -20,13 +23,7 @@ html, body {
     height: 100%;
 }
 
-body {
-    background-color: var(--bg-light);
-
-    @media (prefers-color-scheme: dark) {
-        background-color: var(--bg-dark);
-    }
-}
+body {}
 
 .container {
     @apply mx-auto max-w-7xl px-2 sm:px-6 lg:px-8;

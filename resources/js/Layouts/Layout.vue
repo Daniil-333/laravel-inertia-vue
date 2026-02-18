@@ -1,5 +1,5 @@
 <template>
-    <Disclosure v-if="$page.props.auth" as="nav" class="relative bg-gray-800 dark:bg-gray-800/50 dark:after:pointer-events-none dark:after:absolute dark:after:inset-x-0 dark:after:bottom-0 dark:after:h-px dark:after:bg-white/10" v-slot="{ open }">
+    <Disclosure v-if="$page.props.auth" as="nav" class="relative bg-gray-500 dark:bg-gray-800/50 dark:after:pointer-events-none dark:after:absolute dark:after:inset-x-0 dark:after:bottom-0 dark:after:h-px dark:after:bg-white/10" v-slot="{ open }">
         <div class="container">
             <div class="relative flex h-16 items-center justify-between">
                 <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -22,6 +22,7 @@
                     </div>
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <ThemeSwitcher />
                     <button type="button" class="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">View notifications</span>
@@ -58,6 +59,9 @@
                     </Menu>
                 </div>
             </div>
+            <div class="flex justify-end">
+            </div>
+
         </div>
 
         <DisclosurePanel class="sm:hidden">
@@ -66,9 +70,10 @@
             </div>
         </DisclosurePanel>
     </Disclosure>
-    <button @click="toggleTheme()" type="button" class="text-white">
-        {{ isDark ? 'Switch to light' : 'Switch to dark' }}
-    </button>
+
+    <div v-if="!$page.props.auth" class="flex justify-end">
+        <ThemeSwitcher />
+    </div>
 
     <slot />
 </template>
@@ -78,7 +83,7 @@ import {Link, useForm} from "@inertiajs/vue3";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import {route} from "momentum-trail";
-import { useTheme } from "@/composables/use-theme";
+import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
 
 export default {
     components: {
@@ -92,15 +97,13 @@ export default {
         MenuItems,
         Bars3Icon,
         BellIcon,
-        XMarkIcon
+        XMarkIcon,
+        ThemeSwitcher
     },
     setup() {
         const navigation = [
             { name: 'Главная', href: route('home'), current: true },
         ];
-        const { isDark, toggleTheme } = useTheme();
-
-        // console.log(isDark.value)
 
         const form = useForm({});
 
@@ -108,7 +111,7 @@ export default {
             form.post(route('logout'))
         }
 
-        return { navigation, logout, toggleTheme, isDark }
+        return { navigation, logout }
     }
 }
 

@@ -1,12 +1,11 @@
 import { createInertiaApp } from '@inertiajs/vue3'
 import { createApp, h } from 'vue';
 import { defineRoutes } from 'momentum-trail';
+import { createPinia } from 'pinia'
 import routes from './routes.json';
-import { useTheme } from '@/composables/use-theme';
 import Layout from './Layouts/Layout.vue';
 
 defineRoutes(routes);
-useTheme();
 
 createInertiaApp({
     resolve: name => {
@@ -32,6 +31,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(createPinia())
             .mount(el)
     },
     progress: {
