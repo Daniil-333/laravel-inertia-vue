@@ -16,7 +16,6 @@ export function useFormWithCsrf<T extends Record<string, any>>(initialData: T) {
     form.transform = (callback) => {
         return originalTransform.call(form, (data) => {
             const transformedData = callback(data);
-
             return {
                 ...transformedData,
                 _token: getCsrfToken()

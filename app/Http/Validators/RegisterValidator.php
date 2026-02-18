@@ -23,7 +23,7 @@ class RegisterValidator implements ValidatorContract
                 'string',
                 'email',
                 'max:255',
-                'exists:white_list,users,email',
+                'exists:white_list_users,email',
                 'unique:users',
             ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
