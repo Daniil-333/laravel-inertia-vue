@@ -15,10 +15,9 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
+        DB::table('moonshine_users')->insert([
             'name' => 'minimal',
             'email' => 'progressive@techno.com',
-            'email_verified_at' => now(),
             'moonshine_user_role_id' => config('my_constants.role.MODERATOR'),
             'password' => Hash::make('acid_house_Life'),
             'remember_token' => Str::random(100)
