@@ -42,7 +42,7 @@
                     <div class="flex items-center justify-between">
                         <label for="password" class="block text-sm/6 font-medium text-gray-900 dark:text-gray-100">Пароль</label>
                         <div v-if="!isRegister" class="text-sm">
-                            <Link :href="route('password.request')" class="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">Forgot password?</Link>
+                            <Link :href="route('password.request')" class="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">Забыли пароль?</Link>
                         </div>
                     </div>
                     <div class="mt-2">

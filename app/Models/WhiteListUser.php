@@ -9,6 +9,6 @@ class WhiteListUser extends Model
 {
     use HasFactory;
 
-    protected $table = 'white_list_email';
+    protected $table = 'white_list_users';
     protected $fillable = ['email'];
 }
