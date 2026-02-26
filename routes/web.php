@@ -14,7 +14,7 @@ Route::middleware('guest')
 
 Route::middleware('auth')
     ->group(function () {
-        Route::get('/', [HomeController::class, 'index'])->name('home');
-        Route::get('video', [HomeController::class, 'video'])->name('video');
+        Route::get('/', [HomeController::class, 'index'])->name('home.index');
+        Route::get('video', [HomeController::class, 'video'])->name('home.video');
     });
 
