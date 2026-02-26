@@ -29,4 +29,11 @@ class HomeController extends Controller
             'title' => 'Home page'
         ]);
     }
+
+    public function video()
+    {
+        return Inertia::render('Video', [
+            'title' => 'Video page'
+        ]);
+    }
 }

@@ -10,3 +10,17 @@
     php artisan typescript:transform --format
 
 Генерация объявления маршрутов и типов данных происходит автоматически за счёт настройки плагина (watch) в vite.config.js.
+
+#### Docker (<a href="https://laravel.com/docs/12.x/sail#main-content">Documentation</a>)
+Добавить в .zshrc или .bashrc и перезапустить терминал:
+
+    alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+    alias sail='docker compose -f compose.yaml exec laravel_sty php'
+
+Запуск:
+
+    sail up -d
+
+Остановка:
+
+    sail stop

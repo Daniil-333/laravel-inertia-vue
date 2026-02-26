@@ -17,7 +17,7 @@
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
-                            <Link v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white dark:bg-gray-950/50' : 'text-gray-300 hover:bg-white/5 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</Link>
+                            <NavigationMenu />
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     <ThemeSwitcher />
                     <button type="button" class="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white">
                         <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">View notifications</span>
+                        <span class="sr-only">Смотреть уведомления</span>
                         <BellIcon class="size-6" aria-hidden="true" />
                     </button>
 
@@ -84,6 +84,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import {route} from "momentum-trail";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
+import NavigationMenu from "@/components/Menu.vue";
 
 export default {
     components: {
@@ -98,11 +99,13 @@ export default {
         Bars3Icon,
         BellIcon,
         XMarkIcon,
-        ThemeSwitcher
+        ThemeSwitcher,
+        NavigationMenu
     },
     setup() {
         const navigation = [
-            { name: 'Главная', href: route('home'), current: true },
+            { name: 'Главная', href: route('home.index') },
+            { name: 'Видео', href: route('home.video') },
         ];
 
         const form = useForm({});
