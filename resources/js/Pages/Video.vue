@@ -14,6 +14,7 @@ export default {
     },
     props: {
         title: String,
+        videos: Array
     },
 }
 </script>

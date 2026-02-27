@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -32,8 +33,10 @@ class HomeController extends Controller
 
     public function video()
     {
+        $videos = Video::all();
         return Inertia::render('Video', [
-            'title' => 'Video page'
+            'title' => 'Video page',
+            'videos' => $videos
         ]);
     }
 }
